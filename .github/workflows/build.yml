@@ -15,7 +15,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ windows-latest]
+        # os: [ubuntu-latest, windows-latest]
 
     steps:
     - name: Install Dependencies Linux
@@ -41,33 +42,13 @@ jobs:
         cpack
 
     - name: Publish Windows
-      if: runner.os == 'Windows'
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ env.RELEASE_VERSION }}
+        tag: ${GITHUB_REF#refs/*/}
         commit: main
         allowUpdates: true
         artifactErrorsFailBuild: true
         prerelease: true
         removeArtifacts: true
         artifacts: "${{github.workspace}}/build/dist/*.*"
-
-    - name: Make Directory for Linux
-      if: runner.os != 'Windows'
-      run: |
-        mkdir -p ${{github.workspace}}/build/dist
-        cp ./build/live-paper ${{github.workspace}}/build/dist/
-
-    - name: Publish Linux
-      if: runner.os != 'Windows'
-      uses: ncipollo/release-action@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: $RELEASE_VERSION
-        commit: main
-        allowUpdates: true
-        artifactErrorsFailBuild: true
-        prerelease: true
-        removeArtifacts: true
-        artifacts: "${{github.workspace}}/build/dist/*"

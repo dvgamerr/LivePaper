@@ -64,7 +64,7 @@ endif()
 if(WIN32)
     FetchContent_Declare(
         tray
-        URL https://github.com/dvgamerr/LivePaper/releases/download/v0.0-ffmpeg/tray.h
+        URL https://raw.githubusercontent.com/zserge/tray/master/tray.h
         DOWNLOAD_NO_EXTRACT TRUE
     )
     FetchContent_GetProperties(tray)

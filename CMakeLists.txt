@@ -11,7 +11,7 @@ if(NOT MSVC)
 else()
     FetchContent_Declare(
         FFmpeg
-        URL https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip
+        URL https://archive.org/download/ffmpeg-4.3.2-2021-02-27-full_build.7z/ffmpeg-4.3.2-2021-02-27-full_build.7z
     )
     FetchContent_GetProperties(FFmpeg)
     if(NOT ffmpeg_POPULATED)

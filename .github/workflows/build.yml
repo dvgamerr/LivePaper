@@ -22,7 +22,7 @@ jobs:
       run: sudo apt-get -yq update && sudo apt-get -yq install cmake libsdl2-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev
     
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       
     - uses: FedericoCarboni/setup-ffmpeg@v3
       with:

@@ -25,31 +25,6 @@ jobs:
     
     - name: Checkout
       uses: actions/checkout@v4
-    
-    - name: Get Next Semver Version
-      id: semver
-      uses: ietf-tools/semver-action@v1
-      with:
-        token: ${{ github.token }}
-        branch: main
-        noVersionBumpBehavior: warn
-        
-    # from action to direct API call if you want to customize it.
-    - name: Create Tag
-      uses: rickstaa/action-create-tag@v1
-      if: ${{ steps.semver.outputs.next != '' }}
-      with:
-        tag: ${{ steps.semver.outputs.next }}
-        tag_exists_error: false
-        message: "Automatic tag ${{ steps.semver.outputs.next }}"
-
-    - name: Update CHANGELOG
-      id: changelog
-      uses: requarks/changelog-action@v1
-      if: ${{ steps.semver.outputs.next != '' }}
-      with:
-        token: ${{ github.token }}
-        fromTag: ${{ steps.semver.outputs.next }}
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -70,9 +45,8 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         token: ${{ github.token }}
-        name: ${{ steps.semver.outputs.next }}
-        tag: ${{ steps.semver.outputs.next }}
-        body: ${{ steps.changelog.outputs.changes }}
+        name: main
+        tag: latest
         allowUpdates: true
         artifactErrorsFailBuild: true
         prerelease: true

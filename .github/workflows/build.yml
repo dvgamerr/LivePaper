@@ -12,6 +12,7 @@ env:
 
 jobs:
   build:
+    permissions: write-all
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -24,14 +25,7 @@ jobs:
     
     - name: Checkout
       uses: actions/checkout@v4
-      
-    - uses: FedericoCarboni/setup-ffmpeg@v3
-      with:
-        ffmpeg-version: release
-        # Target architecture of the ffmpeg executable to install. Defaults to the
-        # system architecture. Only x64 and arm64 are supported (arm64 only on Linux).
-        architecture: 'x64'
-
+    
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
@@ -39,7 +33,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       
     - name: Package
-      if: github.ref != 'refs/heads/main'
+      if: runner.os == 'Windows' && github.ref != 'refs/heads/main'
       run: |
         cd build
         cpack

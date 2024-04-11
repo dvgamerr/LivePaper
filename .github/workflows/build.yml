@@ -40,18 +40,31 @@ jobs:
         cd build
         cpack
 
-    - name: list
+    - name: Publish Windows
+      if: runner.os == 'Windows'
+      uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ RELEASE_VERSION }}
+        commit: main
+        allowUpdates: true
+        artifactErrorsFailBuild: true
+        prerelease: true
+        removeArtifacts: true
+        artifacts: "${{github.workspace}}/build/dist/*.*"
+
+    - name: Make Directory for Linux
       if: runner.os != 'Windows'
       run: |
         mkdir -p ${{github.workspace}}/build/dist
         cp ./build/live-paper ${{github.workspace}}/build/dist/
 
-    - name: Publish
-      # if: runner.os == 'Windows' # && github.ref != 'refs/heads/main'
+    - name: Publish Linux
+      if: runner.os != 'Windows'
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${RELEASE_VERSION}
+        tag: $RELEASE_VERSION
         commit: main
         allowUpdates: true
         artifactErrorsFailBuild: true

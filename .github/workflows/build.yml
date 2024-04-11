@@ -12,7 +12,6 @@ env:
 
 jobs:
   build:
-    permissions: write-all
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -38,8 +37,13 @@ jobs:
         cd build
         cpack
 
+    - name: list
+      if: runner.os != 'Windows'
+      run: |
+        ls -al
+
     - name: Publish
-      if: github.ref != 'refs/heads/main'
+      if: runner.os == 'Windows' && github.ref != 'refs/heads/main'
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}

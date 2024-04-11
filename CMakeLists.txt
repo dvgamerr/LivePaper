@@ -11,7 +11,7 @@ if(NOT MSVC)
 else()
     FetchContent_Declare(
         FFmpeg
-        URL https://github.com/dvgamerr/LivePaper/releases/download/v1.0/ffmpeg-4.3.2-2021-02-27-full_build.7z
+        URL https://github.com/dvgamerr/LivePaper/releases/download/v1.0/ffmpeg-4.3.2-2021-02-27-full_win64-shared.7z
     )
     FetchContent_GetProperties(FFmpeg)
     if(NOT ffmpeg_POPULATED)

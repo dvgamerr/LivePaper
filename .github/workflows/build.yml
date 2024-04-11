@@ -25,8 +25,12 @@ jobs:
       uses: actions/checkout@v2
       
     - uses: FedericoCarboni/setup-ffmpeg@v3
-      id: setup-ffmpeg
-      
+      with:
+        ffmpeg-version: release
+        # Target architecture of the ffmpeg executable to install. Defaults to the
+        # system architecture. Only x64 and arm64 are supported (arm64 only on Linux).
+        architecture: 'x64'
+
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
@@ -39,16 +43,16 @@ jobs:
         cd build
         cpack
 
-    - name: Publish
-      if: runner.os == 'Windows' && github.ref == 'refs/heads/main'
-      uses: ncipollo/release-action@v1.8.10
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        allowUpdates: true
-        artifactErrorsFailBuild: true
-        prerelease: true
-        removeArtifacts: true
-        tag: latest
-        commit: main
-        name: "Development Build"
-        artifacts: "${{github.workspace}}/build/dist/*.*"
+    # - name: Publish
+    #   if: runner.os == 'Windows' && github.ref == 'refs/heads/main'
+    #   uses: ncipollo/release-action@v1.8.10
+    #   with:
+    #     token: ${{ secrets.GITHUB_TOKEN }}
+    #     allowUpdates: true
+    #     artifactErrorsFailBuild: true
+    #     prerelease: true
+    #     removeArtifacts: true
+    #     tag: latest
+    #     commit: main
+    #     name: "Development Build"
+    #     artifacts: "${{github.workspace}}/build/dist/*.*"

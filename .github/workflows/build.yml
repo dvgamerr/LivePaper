@@ -26,6 +26,22 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     
+    - name: Get Next Semver Version
+      id: semver
+      uses: ietf-tools/semver-action@v1
+      with:
+        token: ${{ github.token }}
+        branch: main
+        noVersionBumpBehavior: warn
+
+    - name: Update CHANGELOG
+      id: changelog
+      uses: requarks/changelog-action@v1
+      if: ${{ steps.semver.outputs.next != '' }}
+      with:
+        token: ${{ github.token }}
+        fromTag: ${{ steps.semver.outputs.next }}
+
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
@@ -44,9 +60,10 @@ jobs:
     - name: Publish Windows
       uses: ncipollo/release-action@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${GITHUB_REF#refs/*/}
-        commit: main
+        token: ${{ github.token }}
+        name: ${{ steps.semver.outputs.next }}
+        tag: ${{ steps.semver.outputs.next }}
+        body: ${{ steps.changelog.outputs.changes }}
         allowUpdates: true
         artifactErrorsFailBuild: true
         prerelease: true

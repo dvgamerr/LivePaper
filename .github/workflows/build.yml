@@ -43,8 +43,8 @@ jobs:
     - name: list
       if: runner.os != 'Windows'
       run: |
-        mkdir -p ./build/dist
-        cp ./build/live-paper ./build/dist
+        mkdir -p ${{github.workspace}}/build/dist
+        cp ./build/live-paper ${{github.workspace}}/build/dist/
 
     - name: Publish
       # if: runner.os == 'Windows' # && github.ref != 'refs/heads/main'

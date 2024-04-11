@@ -57,4 +57,4 @@ jobs:
         artifactErrorsFailBuild: true
         prerelease: true
         removeArtifacts: true
-        artifacts: "${{github.workspace}}/build/dist/*.*"
+        artifacts: "${{github.workspace}}/build/dist/*"

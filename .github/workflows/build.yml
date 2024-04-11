@@ -33,6 +33,15 @@ jobs:
         token: ${{ github.token }}
         branch: main
         noVersionBumpBehavior: warn
+        
+    # from action to direct API call if you want to customize it.
+    - name: Create Tag
+      uses: rickstaa/action-create-tag@v1
+      if: ${{ steps.semver.outputs.next != '' }}
+      with:
+        tag: ${{ steps.semver.outputs.next }}
+        tag_exists_error: false
+        message: "Automatic tag ${{ steps.semver.outputs.next }}"
 
     - name: Update CHANGELOG
       id: changelog

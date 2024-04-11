@@ -3,6 +3,7 @@ name: Build
 on:
   push:
     branches: [ main ]
+    tags: [ v* ]
   pull_request:
     branches: [ main ]
 
@@ -14,7 +15,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ windows-latest]
+        # os: [ubuntu-latest, windows-latest]
 
     steps:
     - name: Install Dependencies Linux
@@ -22,30 +24,40 @@ jobs:
       run: sudo apt-get -yq update && sudo apt-get -yq install cmake libsdl2-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev
     
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
+      if: success()
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       
+    - name: Set env
+      if: success()
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
     - name: Package
-      if: runner.os == 'Windows' && github.ref == 'refs/heads/main'
+      if: success() && runner.os == 'Windows' # && github.ref != 'refs/heads/main'
       run: |
         cd build
         cpack
 
-    - name: Publish
-      if: runner.os == 'Windows' && github.ref == 'refs/heads/main'
-      uses: ncipollo/release-action@v1.8.10
+    - name: Archive Artifacts
+      uses: actions/upload-artifact@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        allowUpdates: true
-        artifactErrorsFailBuild: true
-        prerelease: true
-        removeArtifacts: true
-        tag: latest
-        commit: main
-        name: "Development Build"
-        artifacts: "${{github.workspace}}/build/dist/*.*"
+        name: "live-paper"
+        path: "${{github.workspace}}/build/dist/*.*"
+
+    # - name: Publish Windows
+    #   if: success() # && !contains(github.ref, 'main') && !contains(github.event_name, 'pull_request')
+    #   uses: ncipollo/release-action@v1
+    #   with:
+    #     token: ${{ github.token }}
+    #     name: LivePaper ${{ env.RELEASE_VERSION }}
+    #     tag: ${{ github.ref }}
+    #     allowUpdates: true
+    #     artifactErrorsFailBuild: true
+    #     prerelease: true
+    #     removeArtifacts: true
+    #     artifacts: "${{github.workspace}}/build/dist/*.*"

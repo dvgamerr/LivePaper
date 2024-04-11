@@ -133,7 +133,7 @@ void PlatformInit(struct Context *context) {
         if (workerw) ShowWindow(workerw, SW_HIDE);
         sdl_parent_hwnd = progman;
     }
-    if (!sdl_parent_hwnd) FAIL();
+    if (!sdl_parent_hwnd) FAIL("restart desktop wallpaper Progman classname");
 
     SDL_Window *window = SDL_CreateWindow("live-paper", 
         0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 

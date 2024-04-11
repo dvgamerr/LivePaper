@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(live-paper VERSION 0.0.0)
+project(live-paper VERSION 1.0)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -11,19 +11,19 @@ if(NOT MSVC)
 else()
     FetchContent_Declare(
         FFmpeg
-        URL https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.2-full_build-shared.7z
+        URL https://github.com/dvgamerr/LivePaper/releases/download/v0.0-ffmpeg/ffmpeg-4.3.2-2021-02-27-full_win64-shared.7z
     )
     FetchContent_GetProperties(FFmpeg)
     if(NOT ffmpeg_POPULATED)
         FetchContent_Populate(FFmpeg)
         add_library(FFmpeg::FFmpeg INTERFACE IMPORTED)
         set_target_properties(FFmpeg::FFmpeg PROPERTIES
-            INTERFACE_LINK_DIRECTORIES "${ffmpeg_SOURCE_DIR}/lib"
+            INTERFACE_LINK_DIRECTORIES "${ffmpeg_SOURCE_DIR}"
             INTERFACE_INCLUDE_DIRECTORIES "${ffmpeg_SOURCE_DIR}/include/"
             INTERFACE_LINK_LIBRARIES "avcodec;avformat;avutil;swscale"
         )
         set(FFMPEG_DLLS avcodec-58.dll avformat-58.dll avutil-56.dll swresample-3.dll swscale-5.dll)
-        list(TRANSFORM FFMPEG_DLLS PREPEND "${ffmpeg_SOURCE_DIR}/bin/")
+        list(TRANSFORM FFMPEG_DLLS PREPEND "${ffmpeg_SOURCE_DIR}/")
     endif()
 endif()
 
@@ -41,7 +41,7 @@ if(NOT MSVC)
 else()
     FetchContent_Declare(
         SDL2
-        URL https://www.libsdl.org/release/SDL2-devel-2.0.16-VC.zip
+        URL https://github.com/dvgamerr/LivePaper/releases/download/v0.0-ffmpeg/SDL2-devel-2.0.16-VC.zip
     )
     FetchContent_GetProperties(SDL2)
     if(NOT sdl2_POPULATED)

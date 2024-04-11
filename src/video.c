@@ -91,16 +91,20 @@ struct Video* VideoLoad(const struct Context *ctx) {
         NULL
     );
 
-    int win_w, win_h;
+    int win_w, win_h, win_x, win_y;
     SDL_GetWindowSize(ctx->window, &win_w, &win_h);
+    SDL_GetWindowPosition(ctx->window, &win_x, &win_y);
+    FAIL_WITH("SDL_GetWindow %i x %i and x:%i y:%i", win_w, win_h, win_x, win_y);
     float aspect_ratio = 1.0;
     if (ctx->fit == FIT_FIT) aspect_ratio = fminf((float)win_w/w, (float)win_h/h);
     else if (ctx->fit == FIT_FILL) aspect_ratio = fmaxf((float)win_w/w, (float)win_h/h);
     const int target_w = (int)(w * aspect_ratio);
     const int target_h = (int)(h * aspect_ratio);
     const SDL_Rect dest_rect = {
-        .x = (win_w - target_w)/2,
-        .y = (win_h - target_h)/2,
+        // .x = (win_w - target_w)/2,
+        // .y = (win_h - target_h)/2,
+        .x = win_x,
+        .y = win_y,
         .w = target_w,
         .h = target_h
     };

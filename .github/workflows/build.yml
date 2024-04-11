@@ -43,14 +43,15 @@ jobs:
     - name: list
       if: runner.os != 'Windows'
       run: |
-        ls -al ./build
+        mkdir -p ./build/dist
+        cp ./build/live-paper ./build/dist
 
     - name: Publish
-      if: runner.os == 'Windows' # && github.ref != 'refs/heads/main'
+      # if: runner.os == 'Windows' # && github.ref != 'refs/heads/main'
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: $RELEASE_VERSION
+        tag: ${RELEASE_VERSION}
         commit: main
         allowUpdates: true
         artifactErrorsFailBuild: true

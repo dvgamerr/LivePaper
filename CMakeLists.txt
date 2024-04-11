@@ -18,12 +18,12 @@ else()
         FetchContent_Populate(FFmpeg)
         add_library(FFmpeg::FFmpeg INTERFACE IMPORTED)
         set_target_properties(FFmpeg::FFmpeg PROPERTIES
-            INTERFACE_LINK_DIRECTORIES "${ffmpeg_SOURCE_DIR}/lib"
+            INTERFACE_LINK_DIRECTORIES "${ffmpeg_SOURCE_DIR}"
             INTERFACE_INCLUDE_DIRECTORIES "${ffmpeg_SOURCE_DIR}/include/"
             INTERFACE_LINK_LIBRARIES "avcodec;avformat;avutil;swscale"
         )
         set(FFMPEG_DLLS avcodec-58.dll avformat-58.dll avutil-56.dll swresample-3.dll swscale-5.dll)
-        list(TRANSFORM FFMPEG_DLLS PREPEND "${ffmpeg_SOURCE_DIR}/bin/")
+        list(TRANSFORM FFMPEG_DLLS PREPEND "${ffmpeg_SOURCE_DIR}")
     endif()
 endif()
 

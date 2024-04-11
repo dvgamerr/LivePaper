@@ -11,7 +11,7 @@ if(NOT MSVC)
 else()
     FetchContent_Declare(
         FFmpeg
-        URL https://archive.org/download/ffmpeg-4.3.2-2021-02-27-full_build.7z/ffmpeg-4.3.2-2021-02-27-full_build.7z
+        URL https://github.com/dvgamerr/LivePaper/releases/download/v1.0/ffmpeg-4.3.2-2021-02-27-full_build.7z
     )
     FetchContent_GetProperties(FFmpeg)
     if(NOT ffmpeg_POPULATED)
@@ -41,7 +41,7 @@ if(NOT MSVC)
 else()
     FetchContent_Declare(
         SDL2
-        URL https://www.libsdl.org/release/SDL2-devel-2.0.16-VC.zip
+        URL https://github.com/dvgamerr/LivePaper/releases/download/v1.0/SDL2-devel-2.0.16-VC.zip
     )
     FetchContent_GetProperties(SDL2)
     if(NOT sdl2_POPULATED)
@@ -64,7 +64,7 @@ endif()
 if(WIN32)
     FetchContent_Declare(
         tray
-        URL https://raw.githubusercontent.com/zserge/tray/master/tray.h
+        URL https://github.com/dvgamerr/LivePaper/releases/download/v1.0/tray.h
         DOWNLOAD_NO_EXTRACT TRUE
     )
     FetchContent_GetProperties(tray)

@@ -32,7 +32,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       
     - name: Package
-      if: runner.os == 'Windows' && github.ref != 'refs/heads/main'
+      if: runner.os == 'Windows' # && github.ref != 'refs/heads/main'
       run: |
         cd build
         cpack
@@ -43,7 +43,7 @@ jobs:
         ls -al
 
     - name: Publish
-      if: runner.os == 'Windows' && github.ref != 'refs/heads/main'
+      if: runner.os == 'Windows' # && github.ref != 'refs/heads/main'
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}

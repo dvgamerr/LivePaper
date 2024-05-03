@@ -44,12 +44,12 @@ jobs:
         cpack
 
     - name: Publish Windows
-      if: success() && !contains(github.ref, 'main') && !contains(github.event_name, 'pull_request')
+      if: success() # && !contains(github.ref, 'main') && !contains(github.event_name, 'pull_request')
       uses: ncipollo/release-action@v1
       with:
         token: ${{ github.token }}
         name: LivePaper ${{GITHUB_REF#refs/*/}}
-        tag: github.ref
+        tag: ${github.ref}
         allowUpdates: true
         artifactErrorsFailBuild: true
         prerelease: true

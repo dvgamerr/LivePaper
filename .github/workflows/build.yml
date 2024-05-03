@@ -43,15 +43,21 @@ jobs:
         cd build
         cpack
 
-    - name: Publish Windows
-      if: success() # && !contains(github.ref, 'main') && !contains(github.event_name, 'pull_request')
-      uses: ncipollo/release-action@v1
+    - name: Archive Artifacts
+      uses: actions/upload-artifact@v2
       with:
-        token: ${{ github.token }}
-        name: LivePaper ${{ env.RELEASE_VERSION }}
-        tag: ${{ github.ref#refs/*/} }}
-        allowUpdates: true
-        artifactErrorsFailBuild: true
-        prerelease: true
-        removeArtifacts: true
-        artifacts: "${{github.workspace}}/build/dist/*.*"
+        name: "Live"
+        path: "${{github.workspace}}/build/dist/*.*"
+
+    # - name: Publish Windows
+    #   if: success() # && !contains(github.ref, 'main') && !contains(github.event_name, 'pull_request')
+    #   uses: ncipollo/release-action@v1
+    #   with:
+    #     token: ${{ github.token }}
+    #     name: LivePaper ${{ env.RELEASE_VERSION }}
+    #     tag: ${{ github.ref }}
+    #     allowUpdates: true
+    #     artifactErrorsFailBuild: true
+    #     prerelease: true
+    #     removeArtifacts: true
+    #     artifacts: "${{github.workspace}}/build/dist/*.*"

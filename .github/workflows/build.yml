@@ -48,8 +48,8 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         token: ${{ github.token }}
-        name: LivePaper ${GITHUB_REF#refs/*/}
-        tag: ${github.ref}
+        name: LivePaper ${{ env.RELEASE_VERSION }}
+        tag: ${{ github.ref }}
         allowUpdates: true
         artifactErrorsFailBuild: true
         prerelease: true

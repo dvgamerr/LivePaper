@@ -49,7 +49,7 @@ jobs:
       with:
         token: ${{ github.token }}
         name: LivePaper ${{ env.RELEASE_VERSION }}
-        tag: ${{ github.ref }}
+        tag: ${{ github.ref#refs/*/} }}
         allowUpdates: true
         artifactErrorsFailBuild: true
         prerelease: true

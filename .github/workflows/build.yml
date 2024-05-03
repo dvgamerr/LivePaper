@@ -30,23 +30,26 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
+      if: success()
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       
     - name: Set env
+      if: success()
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
     - name: Package
-      if: runner.os == 'Windows' # && github.ref != 'refs/heads/main'
+      if: success() && runner.os == 'Windows' # && github.ref != 'refs/heads/main'
       run: |
         cd build
         cpack
 
     - name: Publish Windows
+      if: success() && !contains(github.ref, 'main') && !contains(github.event_name, 'pull_request')
       uses: ncipollo/release-action@v1
       with:
         token: ${{ github.token }}
-        name: main
-        tag: latest
+        name: LivePaper ${{GITHUB_REF#refs/*/}}
+        tag: github.ref
         allowUpdates: true
         artifactErrorsFailBuild: true
         prerelease: true

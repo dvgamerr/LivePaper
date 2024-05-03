@@ -100,7 +100,7 @@ struct Video* VideoLoad(const struct Context *ctx) {
     else if (ctx->fit == FIT_FILL) aspect_ratio = fmaxf((float)win_w/w, (float)win_h/h);
     const int target_w = (int)(w * aspect_ratio);
     const int target_h = (int)(h * aspect_ratio);
-    const SDL_Rect dest_rect = {
+    struct SDL_Rect dest_rect = {
         .x = (win_w - target_w)/2,
         .y = (win_h - target_h)/2,
         .w = target_w,

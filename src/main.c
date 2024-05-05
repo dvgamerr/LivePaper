@@ -66,7 +66,7 @@ void ProcessArguments(int argc, char *argv[], struct Context *context) {
     }
     
     if (file->count > 0) {
-        context->file = strdup(file->filename[0]);
+        context->file = _strdup(file->filename[0]);
     } else {
         PlatformInitGuiMode(context);
     }

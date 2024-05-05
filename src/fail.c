@@ -15,10 +15,10 @@ void MessageAndQuit(int line, const char *file, const char *message, ...) {
 
     char buf[4096] = {0};
     int pos = 0;
-    pos += sprintf(buf + pos, "Error %s:%i", file, line);
+    pos += sprintf_s(buf + pos, "Error %s:%i", file, line);
     if (message) {
-        pos += sprintf(buf + pos, ": ");
-        pos += vsprintf(buf + pos, message, args);
+        pos += sprintf_s(buf + pos, ": ");
+        pos += vsprintf_s(buf + pos, message, args);
     }
     va_end(args);
 #ifdef _WIN32

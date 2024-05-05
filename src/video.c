@@ -109,7 +109,7 @@ struct Video* VideoLoad(const struct Context *ctx) {
         .w = target_w,
         .h = target_h
     };
-    FAIL_WITH("dest_rect %i x %i px", dest_rect.x, dest_rect.y)
+    FAIL_WITH("dest_rect %d x %d px", dest_rect.x, dest_rect.y)
 
     v->tex_dest = dest_rect;
 

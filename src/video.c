@@ -107,10 +107,10 @@ struct Video* VideoLoad(const struct Context *ctx) {
         .w = target_w,
         .h = target_h
     };
-    if (win_x != 0 || win_y != 0) {
-        dest_rect.x = win_x;
-        dest_rect.y = win_y;
-    }
+    // if (win_x != 0 || win_y != 0) {
+    //     dest_rect.x = win_x;
+    //     dest_rect.y = win_y;
+    // }
 
     v->tex_dest = dest_rect;
 

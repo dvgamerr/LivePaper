@@ -100,8 +100,8 @@ struct Video* VideoLoad(const struct Context *ctx) {
     else if (ctx->fit == FIT_FILL) aspect_ratio = fmaxf((float)win_w/w, (float)win_h/h);
     const int target_w = (int)(w * aspect_ratio);
     const int target_h = (int)(h * aspect_ratio);
-    FAIL_WITH("SDL_GetWindowPosition %i x %i px", win_x, win_y)
-    const SDL_Rect dest_rect = {
+    FAIL_WITH("SDL_GetWindowPosition %i x %i px", win_x, win_y);
+    struct SDL_Rect dest_rect = {
         .x = (win_w - target_w)/2,
         .y = (win_h - target_h)/2,
         // .x = win_x,
@@ -109,7 +109,7 @@ struct Video* VideoLoad(const struct Context *ctx) {
         .w = target_w,
         .h = target_h
     };
-    FAIL_WITH("dest_rect %d x %d px", dest_rect.x, dest_rect.y)
+    FAIL_WITH("dest_rect %d x %d px", dest_rect.x, dest_rect.y);
 
     v->tex_dest = dest_rect;
 

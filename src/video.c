@@ -103,8 +103,8 @@ struct Video* VideoLoad(const struct Context *ctx) {
     struct SDL_Rect dest_rect = {
         // .x = (win_w - target_w)/2,
         // .y = (win_h - target_h)/2,
-        .x = win_x/2,
-        .y = win_y/2,
+        .x = win_x,
+        .y = win_y,
         .w = target_w,
         .h = target_h
     };

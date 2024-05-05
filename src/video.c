@@ -104,12 +104,13 @@ struct Video* VideoLoad(const struct Context *ctx) {
     struct SDL_Rect dest_rect = {
         .x = (win_w - target_w)/2,
         .y = (win_h - target_h)/2,
-        // .x = win_x,
-        // .y = win_y,
         .w = target_w,
         .h = target_h
     };
-    FAIL_WITH("dest_rect %d x %d px", dest_rect.x, dest_rect.y);
+    if (win_x != 0 || win_y != 0) {
+        dest_rect.x = win_x;
+        dest_rect.y = win_y;
+    }
 
     v->tex_dest = dest_rect;
 

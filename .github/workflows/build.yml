@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [ windows-latest]
-        # os: [ubuntu-latest, windows-latest]
+        # os: [ubuntu-24.04, windows-latest]
 
     steps:
     - name: Install Dependencies Linux
@@ -49,15 +49,17 @@ jobs:
         name: "live-paper"
         path: "${{github.workspace}}/build/dist/*.*"
 
-    # - name: Publish Windows
-    #   if: success() # && !contains(github.ref, 'main') && !contains(github.event_name, 'pull_request')
-    #   uses: ncipollo/release-action@v1
-    #   with:
-    #     token: ${{ github.token }}
-    #     name: LivePaper ${{ env.RELEASE_VERSION }}
-    #     tag: ${{ github.ref }}
-    #     allowUpdates: true
-    #     artifactErrorsFailBuild: true
-    #     prerelease: true
-    #     removeArtifacts: true
-    #     artifacts: "${{github.workspace}}/build/dist/*.*"
+    - name: Publish
+      if: runner.os == 'Windows'
+      uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+        artifactErrorsFailBuild: true
+        prerelease: true
+        removeArtifacts: true
+        makeLatest: true
+        tag: latest
+        commit: main
+        name: "Development Build"
+        artifacts: "${{github.workspace}}/build/dist/*.*"

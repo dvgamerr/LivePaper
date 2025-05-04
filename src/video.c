@@ -182,7 +182,7 @@ void VideoUpdate(double delta_sec, struct Video *v, const struct Context *ctx) {
             if (frame_end_time > v->time) {
                 v->next_frame_time = frame_end_time;
 
-                void *pix;
+                uint8_t *pix;
                 int pitch;
                 SDL_LockTexture(v->tex, NULL, &pix, &pitch);
                 sws_scale(v->sws_ctx, (uint8_t const * const *)frame.data,

@@ -116,6 +116,9 @@ void PlatformInit(struct Context *context) {
     if (tray_init(&tray) == -1)
         FAIL_WITH("can't create tray with icon '%s'", tray.icon);
 
+    // Get the handle of the parent
+    // On Win8+: WorkerW window, a previous sibling of Progman
+    // On Win7: Progman window; also need to hide WorkerW window when Aero is on
     HWND progman = FindWindow("Progman", NULL);
     if (progman == NULL) FAIL();
     // Send the (undocumented) message to trigger the creation of WorkerW in required position
@@ -127,7 +130,11 @@ void PlatformInit(struct Context *context) {
         workerw = FindWindowEx(progman, NULL, "WorkerW", NULL);
 
     HWND sdl_parent_hwnd = workerw;
-    if (!sdl_parent_hwnd) FAIL();
+    if (!IsWindows8OrGreater()) {
+        if (workerw) ShowWindow(workerw, SW_HIDE);
+        sdl_parent_hwnd = progman;
+    }
+    if (!sdl_parent_hwnd) FAIL("restart desktop wallpaper Progman classname");
 
     SDL_Window *window = SDL_CreateWindow("live-paper", 
         0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 
